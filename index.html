@@ -18,10 +18,35 @@
     --muted: #5a6072;
     --card: rgba(13,17,23,0.85);
   }
+
+  /* --- 音乐按钮样式 --- */
+  #music-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+    cursor: pointer;
+    font-size: 22px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    padding: 10px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  }
+  #music-btn:hover { border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
+  .rotating { animation: rotate 4s linear infinite; }
+  @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  /* --- 基础样式 --- */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
-
   body {
     background: var(--bg);
     color: var(--text);
@@ -32,48 +57,13 @@
   }
 
   /* --- 装饰性背景组件 --- */
-  .cursor {
-    position: fixed; width: 10px; height: 10px;
-    background: var(--accent); border-radius: 50%;
-    pointer-events: none; z-index: 9999;
-    transform: translate(-50%,-50%);
-    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
-    mix-blend-mode: screen;
-  }
-  .cursor-ring {
-    position: fixed; width: 36px; height: 36px;
-    border: 1px solid var(--accent); border-radius: 50%;
-    pointer-events: none; z-index: 9998;
-    transform: translate(-50%,-50%);
-    transition: transform 0.15s ease, width 0.3s, height 0.3s, border-color 0.3s;
-    opacity: 0.5;
-  }
-
-  .grid-bg {
-    position: fixed; inset: 0; z-index: 0;
-    background-image:
-      linear-gradient(rgba(0,255,180,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,180,0.025) 1px, transparent 1px);
-    background-size: 60px 60px;
-    animation: gridShift 20s linear infinite;
-  }
+  .cursor { position: fixed; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s; mix-blend-mode: screen; }
+  .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid var(--accent); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: transform 0.15s ease, width 0.3s, height 0.3s, border-color 0.3s; opacity: 0.5; }
+  .grid-bg { position: fixed; inset: 0; z-index: 0; background-size: 60px 60px; background-image: linear-gradient(rgba(0,255,180,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,180,0.025) 1px, transparent 1px); animation: gridShift 20s linear infinite; }
   @keyframes gridShift { from { background-position: 0 0; } to { background-position: 60px 60px; } }
-
-  .scanlines {
-    position: fixed; inset: 0; z-index: 1; pointer-events: none;
-    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
-  }
-
-  .noise {
-    position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  .orb {
-    position: fixed; border-radius: 50%; filter: blur(80px); z-index: 0; pointer-events: none;
-    will-change: transform;
-    animation: orbFloat 12s ease-in-out infinite alternate;
-  }
+  .scanlines { position: fixed; inset: 0; z-index: 1; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); }
+  .noise { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.03; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .orb { position: fixed; border-radius: 50%; filter: blur(80px); z-index: 0; pointer-events: none; animation: orbFloat 12s ease-in-out infinite alternate; }
   .orb1 { width: 500px; height: 500px; background: rgba(0,255,180,0.06); top: -150px; left: -100px; }
   .orb2 { width: 400px; height: 400px; background: rgba(255,60,172,0.06); bottom: -100px; right: -100px; animation-delay: -4s; }
   .orb3 { width: 350px; height: 350px; background: rgba(123,97,255,0.06); top: 40%; left: 50%; animation-delay: -8s; }
@@ -83,170 +73,57 @@
   .wrap { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 0 2rem; }
 
   /* --- 导航栏 --- */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 1.2rem 2rem;
-    display: flex; justify-content: space-between; align-items: center;
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    background: rgba(6,8,16,0.7);
-  }
-  .nav-logo {
-    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem;
-    color: var(--accent); letter-spacing: 0.05em; text-decoration: none;
-  }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); background: rgba(6,8,16,0.7); }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--accent); letter-spacing: 0.05em; text-decoration: none; }
   .nav-logo span { color: var(--accent2); }
   .nav-links { display: flex; gap: 2rem; }
-  .nav-links a {
-    color: var(--muted); text-decoration: none; font-size: 0.75rem;
-    letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; position: relative;
-  }
-  .nav-links a::after {
-    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
-    height: 1px; background: var(--accent); transform: scaleX(0); transition: transform 0.2s;
-  }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; position: relative; }
   .nav-links a:hover { color: var(--accent); }
-  .nav-links a:hover::after { transform: scaleX(1); }
 
   /* --- Hero 区域 --- */
   .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 5rem; }
-  .hero-inner { max-width: 700px; }
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--accent); border: 1px solid var(--border);
-    padding: 6px 14px; border-radius: 2px; margin-bottom: 2rem;
-    animation: fadeUp 0.6s ease both;
-  }
-  .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: blink 1.5s ease-in-out infinite; }
-
-  .hero-name {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: clamp(3.5rem, 10vw, 7rem);
-    line-height: 0.9; letter-spacing: -0.03em; margin-bottom: 1.5rem;
-  }
-  .hero-name .line1 { display: block; color: var(--text); animation: fadeUp 0.6s 0.1s ease both; }
-  .hero-name .line2 {
-    display: block;
-    background: linear-gradient(90deg, var(--accent), var(--accent3), var(--accent2));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-size: 200% 100%;
-    animation: gradShift 4s ease-in-out infinite alternate;
-  }
-
-  .hero-bio {
-    font-size: 0.9rem; line-height: 1.8; color: var(--muted);
-    max-width: 480px; margin-bottom: 2.5rem; animation: fadeUp 0.6s 0.2s ease both;
-  }
-  .hero-bio strong { color: var(--text); font-weight: 400; }
-
-  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 12px 24px; font-size: 0.75rem; text-decoration: none; border-radius: 2px;
-    transition: all 0.2s; cursor: none;
-  }
-  .btn-primary { background: var(--accent); color: var(--bg); font-weight: 500; box-shadow: 0 0 24px rgba(0,255,180,0.25); }
-  .btn-primary:hover { box-shadow: 0 0 40px rgba(0,255,180,0.5); transform: translateY(-2px); }
+  .hero-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px; margin-bottom: 2rem; }
+  .hero-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(3.5rem, 10vw, 7rem); line-height: 0.9; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+  .hero-name .line2 { background: linear-gradient(90deg, var(--accent), var(--accent3), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 200% 100%; animation: gradShift 4s ease-in-out infinite alternate; }
+  .hero-bio { font-size: 0.9rem; line-height: 1.8; color: var(--muted); max-width: 480px; margin-bottom: 2.5rem; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-size: 0.75rem; text-decoration: none; border-radius: 2px; transition: all 0.2s; cursor: none; }
+  .btn-primary { background: var(--accent); color: var(--bg); font-weight: 500; }
   .btn-outline { border: 1px solid var(--border); color: var(--muted); }
-  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
   /* --- 文章列表 --- */
   section { padding: 6rem 0; }
-  .section-label {
-    display: flex; align-items: center; gap: 12px; font-size: 0.7rem;
-    letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 3rem;
-  }
+  .section-label { display: flex; align-items: center; gap: 12px; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 3rem; }
   .section-label::before { content: ''; width: 30px; height: 1px; background: var(--accent); }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, var(--border), transparent); }
-
   .posts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
-  
-  .post-card {
-    background: var(--surface); padding: 2rem;
-    text-decoration: none; color: inherit;
-    position: relative; overflow: hidden;
-    transition: background 0.3s, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    display: flex; flex-direction: column;
-  }
+  .post-card { background: var(--surface); padding: 2rem; text-decoration: none; color: inherit; position: relative; overflow: hidden; transition: all 0.4s; display: flex; flex-direction: column; }
   .post-card:hover { background: rgba(13,17,23,0.9); transform: scale(1.01); z-index: 2; }
-  .post-card:hover .post-arrow { transform: translate(4px,-4px); color: var(--accent); }
-
-  .post-tag {
-    display: inline-block; font-size: 0.65rem; padding: 3px 8px;
-    border: 1px solid; border-radius: 1px; margin-bottom: 1rem; width: fit-content;
-  }
-  .tag-rust { border-color: rgba(255,100,60,0.4); color: #ff643c; }
-  .tag-systems { border-color: rgba(0,255,180,0.3); color: var(--accent); }
-  .tag-devops { border-color: rgba(123,97,255,0.4); color: var(--accent3); }
-  .tag-tools { border-color: rgba(255,60,172,0.4); color: var(--accent2); }
-  .tag-life { border-color: rgba(255,200,0,0.3); color: #ffc800; }
-
   .post-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.15rem; line-height: 1.3; margin-bottom: 0.75rem; }
-  
-  .post-excerpt {
-    font-size: 0.78rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  }
-  
-  .post-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-  .post-date { font-size: 0.68rem; color: var(--muted); }
-  .post-arrow { font-size: 1rem; color: var(--muted); transition: transform 0.2s, color 0.2s; }
+  .post-excerpt { font-size: 0.78rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .post-arrow { transition: transform 0.3s ease; display: inline-block; }
+  .post-card:hover .post-arrow { transform: translate(5px, -5px); color: var(--accent); }
 
+  /* --- 图片自适应样式 --- */
   .post-featured { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; }
-  .post-featured .post-visual {
-    background: linear-gradient(135deg, rgba(0,255,180,0.08), rgba(123,97,255,0.08));
-    display: flex; align-items: center; justify-content: center; font-size: 5rem;
-  }
+  .post-visual { position: relative; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
+  .post-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+  .post-card:hover .post-visual img { transform: scale(1.1); }
 
-  /* --- 统计数值 --- */
+  /* --- 统计 & Footer --- */
   .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); margin-bottom: 6rem; }
   .stat-item { background: var(--surface); padding: 2rem; text-align: center; }
-  .stat-num {
-    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.5rem;
-    background: linear-gradient(135deg, var(--accent), var(--accent3));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    display: block;
-  }
-  .stat-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
-
-  /* --- Footer & Utils --- */
-  .about-strip {
-    border: 1px solid var(--border); padding: 3rem; display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center;
-  }
-  .about-link { font-size: 0.72rem; color: var(--muted); text-decoration: none; transition: color 0.2s; display: block; margin-bottom: 0.5rem;}
-  .about-link:hover { color: var(--accent); }
-
+  .stat-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.5rem; background: linear-gradient(135deg, var(--accent), var(--accent3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .about-strip { border: 1px solid var(--border); padding: 3rem; display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; }
   footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: var(--muted); }
-  
-  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
   .blink { animation: blink 1s step-end infinite; }
   @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-  .scroll-hint { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 0.65rem; color: var(--muted); text-transform: uppercase; transition: opacity 0.3s;}
-  .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--accent), transparent); animation: scrollPulse 2s ease-in-out infinite; }
-  @keyframes scrollPulse { 0%,100% { transform: scaleY(1); opacity: 0.4; } 50% { transform: scaleY(0.6); opacity: 1; } }
 
   @media (max-width: 700px) {
-    body { cursor: auto; }
+    .posts-grid, .post-featured, .stats { grid-template-columns: 1fr; }
+    .post-visual { height: 200px; }
     .cursor, .cursor-ring { display: none; }
-    .posts-grid { grid-template-columns: 1fr; }
-    .post-featured { grid-template-columns: 1fr; }
-    .post-featured .post-visual { display: none; }
-    .stats { grid-template-columns: 1fr 1fr; }
-    .about-strip { grid-template-columns: 1fr; }/* 默认状态 */
-.post-arrow {
-    transition: transform 0.3s ease; /* 让变化变得平滑 */
-    display: inline-block;
-}
-
-/* 当鼠标悬停在整张卡片上时 */
-.post-card:hover .post-arrow {
-    transform: translate(5px, -5px); /* 箭头向右上角位移 5 像素 */
-    color: #07c160; /* 或者变个颜色 */
-}
+    body { cursor: auto; }
   }
 </style>
 </head>
@@ -260,6 +137,11 @@
 <div class="orb orb1"></div>
 <div class="orb orb2"></div>
 <div class="orb orb3"></div>
+
+<div id="music-btn">
+  <audio id="bgm" src="./bgm.mp3" loop></audio>
+  <span class="icon">🎵</span>
+</div>
 
 <nav>
   <a class="nav-logo" href="#">Gali<span>boom</span></a>
@@ -281,8 +163,7 @@
         </h1>
         <p class="hero-bio">
           <strong>开发者 / 创造者 / 探索者。</strong><br>
-          在这里记录技术思考、项目复盘和一些关于代码与生活的碎碎念。<br>
-          Build things. Break things. Learn everything.
+          在开发道路上的所思所悟。 Build things. Break things. Learn everything.
         </p>
         <div class="hero-actions">
           <a href="#posts" class="btn btn-primary">→ 开始阅读</a>
@@ -290,11 +171,6 @@
         </div>
       </div>
     </section>
-  </div>
-
-  <div class="scroll-hint" id="scrollHint">
-    <div class="scroll-line"></div>
-    <span>scroll</span>
   </div>
 
   <section id="posts">
@@ -310,27 +186,27 @@
 
       <div class="posts-grid reveal">
         <article>
-  <a class="post-card post-featured" href="https://galiboom.github.io/my-first-blog.html"target="_blank">
-    <div class="post-content">
-      <span class="post-tag tag-systems">置顶</span>
-      <h2 class="post-title">欢迎来到我的博客！在这里，我会分享我在开发道路上的所思所悟。</h2>
-      <p class="post-excerpt">不是教程，不是指南，只是一个开发者试图把脑子里的东西放到屏幕上。记录每一次构建、每一次失败和每一个"啊哈！"的瞬间。</p>
-      <div class="post-footer">
-        <span class="post-date">2026 · 03 · 15</span>
-        <span class="post-arrow">↗</span>
-      </div>
-    </div>
-    <div class="post-visual"><div class="post-visual">
-  <img src="gaga.jpg"  style="width:100%; height:100%; object-fit:cover;" />
-</div></div>
-  </a>
-</article>
+          <a class="post-card post-featured" href="https://galiboom.github.io/my-first-blog.html" target="_blank">
+            <div class="post-content">
+              <span class="post-tag tag-systems">置顶</span>
+              <h2 class="post-title">欢迎来到我的博客！记录每一次构建与"啊哈"瞬间。</h2>
+              <p class="post-excerpt">不是教程，不是指南，只是一个开发者试图把脑子里的东西放到屏幕上。记录开发道路上的所思所悟。</p>
+              <div class="post-footer">
+                <span class="post-date">2026 · 03 · 15</span>
+                <span class="post-arrow">↗</span>
+              </div>
+            </div>
+            <div class="post-visual">
+              <img src="gaga.jpg" alt="Cover" />
+            </div>
+          </a>
+        </article>
 
         <article>
-          <a class="post-card" href="https://github.com/Galiboom/GaLi-Link"target="_blank">
-            <span class="post-tag tag-rust">Rust</span>
+          <a class="post-card" href="https://github.com/Galiboom/GaLi-Link" target="_blank">
+            <span class="post-tag tag-rust">Project</span>
             <h3 class="post-title">GaLi-Link</h3>
-            <p class="post-excerpt">第一次编写微信小程序</p>
+            <p class="post-excerpt">基于微信小程序的低功耗蓝牙心率广播插件。</p>
             <div class="post-footer">
               <span class="post-date">2026 · 05 · 10</span>
               <span class="post-arrow">↗</span>
@@ -338,42 +214,7 @@
           </a>
         </article>
 
-        <article>
-          <a class="post-card" href="#"target="_blank">
-            <span class="post-tag tag-devops">DevOps</span>
-            <h3 class="post-title">GitHub Actions：从零到自动部署</h3>
-            <p class="post-excerpt">push 一下，博客自己就更新了。这感觉太爽了，写一篇记录一下整个 CI/CD 流程。</p>
-            <div class="post-footer">
-              <span class="post-date">2026 · 05 · 06</span>
-              <span class="post-arrow">↗</span>
-            </div>
-          </a>
-        </article>
-
-        <article>
-          <a class="post-card" href="#"target="_blank">
-            <span class="post-tag tag-tools">工具</span>
-            <h3 class="post-title">我的开发环境配置 2026 版</h3>
-            <p class="post-excerpt">Neovim + tmux + Ghostty，一个让我每天开机都有点期待的工作台。</p>
-            <div class="post-footer">
-              <span class="post-date">2026 · 04 · 11</span>
-              <span class="post-arrow">↗</span>
-            </div>
-          </a>
-        </article>
-
-        <article>
-          <a class="post-card" href="#"target="_blank">
-            <span class="post-tag tag-life">随笔</span>
-            <h3 class="post-title">学编程第 N 年：我不再假装自己什么都懂了</h3>
-            <p class="post-excerpt">"我不知道"是我今年说过的最有力量的三个字。承认无知是进步的开始。</p>
-            <div class="post-footer">
-              <span class="post-date">2026 · 04 · 15</span>
-              <span class="post-arrow">↗</span>
-            </div>
-          </a>
-        </article>
-      </div>
+        </div>
     </div>
   </section>
 
@@ -383,12 +224,11 @@
       <div class="about-strip reveal">
         <div class="about-text">
           <h3>Hi, 我是 Galiboom <span class="blink">_</span></h3>
-          <p>一个对技术充满好奇的开发者。这里面是我自己的一些练习项目，偶尔也写写对这个世界的观察。这个博客是我的公开笔记本。</p>
+          <p>一个对技术充满好奇的开发者。这里是我的公开笔记本。</p>
         </div>
         <div class="about-links">
           <a class="about-link" href="https://github.com/Galiboom" target="_blank">⎇ github.com/Galiboom</a>
           <a class="about-link" href="mailto:xuefanfand@outlook.com">✉ 联系我</a>
-          <a class="about-link" href="#">⚙ RSS 订阅</a>
         </div>
       </div>
     </div>
@@ -397,70 +237,41 @@
 
 <div class="wrap">
   <footer>
-    <span>© 2026 Galiboom · Built with ❤ & GitHub Pages</span>
-    <div class="footer-dot"></div>
+    <span>© 2026 Galiboom · Built with ❤</span>
     <span>galiboom.github.io</span>
   </footer>
 </div>
 
 <script>
-  // 1. 自定义光标逻辑
+  // 1. 光标逻辑
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
   let mx = 0, my = 0, rx = 0, ry = 0;
-  
-  document.addEventListener('mousemove', e => { 
-    mx = e.clientX; my = e.clientY; 
-    cursor.style.left = mx+'px'; cursor.style.top = my+'px'; 
-  });
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+  (function animRing() { rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animRing); })();
 
-  (function animRing() {
-    rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
-    ring.style.left = rx+'px'; ring.style.top = ry+'px';
-    requestAnimationFrame(animRing);
-  })();
-
-  document.querySelectorAll('a, button, .post-card').forEach(el => {
-    el.addEventListener('mouseenter', () => { 
-      cursor.style.width='6px'; cursor.style.height='6px'; 
-      ring.style.width='50px'; ring.style.height='50px'; 
-      ring.style.borderColor='var(--accent2)'; 
-    });
-    el.addEventListener('mouseleave', () => { 
-      cursor.style.width='10px'; cursor.style.height='10px'; 
-      ring.style.width='36px'; ring.style.height='36px'; 
-      ring.style.borderColor='var(--accent)'; 
-    });
-  });
-
-  // 2. 打字机效果
-  const txt = "Galiboom.";
-  let idx = 0;
-  function type() {
-    if (idx < txt.length) {
-      document.getElementById("typewriter").innerHTML += txt.charAt(idx);
-      idx++;
-      setTimeout(type, 150);
-    }
-  }
+  // 2. 打字机
+  const txt = "Galiboom."; let idx = 0;
+  function type() { if (idx < txt.length) { document.getElementById("typewriter").innerHTML += txt.charAt(idx); idx++; setTimeout(type, 150); } }
   window.onload = type;
 
-  // 3. 滚动显现逻辑
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 100);
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
+  // 3. 滚动显现
+  const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }); }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  // 4. 滚动时隐藏提示
-  window.addEventListener('scroll', () => {
-    const hint = document.getElementById('scrollHint');
-    if (hint) hint.style.opacity = window.scrollY > 100 ? '0' : '1';
-  }, { passive: true });
+  // 4. 音乐播放逻辑
+  const musicBtn = document.getElementById('music-btn');
+  const bgm = document.getElementById('bgm');
+  
+  musicBtn.addEventListener('click', () => {
+    if (bgm.paused) { bgm.play(); musicBtn.classList.add('rotating'); } 
+    else { bgm.pause(); musicBtn.classList.remove('rotating'); }
+  });
+
+  // 自动播放破解：点击页面任何地方即触发播放
+  document.addEventListener('click', () => {
+    if (bgm.paused) { bgm.play(); musicBtn.classList.add('rotating'); }
+  }, { once: true });
 </script>
 </body>
 </html>
