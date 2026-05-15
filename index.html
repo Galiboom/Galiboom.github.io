@@ -226,7 +226,12 @@
           <h3>Hi, 我是 Galiboom <span class="blink">_</span></h3>
           <p>一个对技术充满好奇的开发者。这里是我的公开笔记本。</p>
         </div>
-        <div class="about-links">
+        <div class="about-links".about-links {
+  display: flex;
+  flex-direction: column; /* 核心：由横向改为竖向 */
+  gap: 12px;              /* 链接之间的间距 */
+  align-items: flex-start; /* 左对齐，如果想居中改为 center */
+}>
           <a class="about-link" href="https://github.com/Galiboom" target="_blank">⎇ github.com/Galiboom</a>
           <a class="about-link" href="mailto:xuefanfand@outlook.com">✉ 联系我</a>
         </div>
