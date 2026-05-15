@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galiboom — Blog</title>
+<title>Galiboom-Blog</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -236,7 +236,17 @@
     .post-featured { grid-template-columns: 1fr; }
     .post-featured .post-visual { display: none; }
     .stats { grid-template-columns: 1fr 1fr; }
-    .about-strip { grid-template-columns: 1fr; }
+    .about-strip { grid-template-columns: 1fr; }/* 默认状态 */
+.post-arrow {
+    transition: transform 0.3s ease; /* 让变化变得平滑 */
+    display: inline-block;
+}
+
+/* 当鼠标悬停在整张卡片上时 */
+.post-card:hover .post-arrow {
+    transform: translate(5px, -5px); /* 箭头向右上角位移 5 像素 */
+    color: #07c160; /* 或者变个颜色 */
+}
   }
 </style>
 </head>
@@ -264,7 +274,7 @@
   <div class="wrap">
     <section class="hero">
       <div class="hero-inner">
-        <div class="hero-tag">个人博客 · Personal Blog</div>
+        <div class="hero-tag">GaLiGaLi的个人博客 · Personal Blog</div>
         <h1 class="hero-name">
           <span class="line1">Hello,</span>
           <span class="line2" id="typewriter"></span><span class="blink" style="color:var(--accent)">|</span>
@@ -307,7 +317,7 @@
       <p class="post-excerpt">不是教程，不是指南，只是一个开发者试图把脑子里的东西放到屏幕上。记录每一次构建、每一次失败和每一个"啊哈！"的瞬间。</p>
       <div class="post-footer">
         <span class="post-date">2026 · 03 · 15</span>
-        <span class="post-arrow">↗</span>
+        <span class="post-arrow">↗First</span>
       </div>
     </div>
     <div class="post-visual"></div>
