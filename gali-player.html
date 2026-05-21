@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gali-Player：现代网页音乐播放器项目复盘</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: #070914;
+      color: #e5e7eb;
+      line-height: 1.85;
+    }
+    .hero {
+      min-height: 48vh;
+      padding: 96px 24px 118px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 22% 18%, rgba(124,58,237,.36), transparent 34%),
+        radial-gradient(circle at 78% 24%, rgba(34,211,238,.28), transparent 32%),
+        linear-gradient(135deg, #050710 0%, #111827 48%, #312e81 100%);
+      overflow: hidden;
+    }
+    .eyebrow {
+      display: inline-flex;
+      margin-bottom: 18px;
+      padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 999px;
+      color: #67e8f9;
+      font-size: 13px;
+      letter-spacing: .08em;
+    }
+    .hero h1 {
+      max-width: 920px;
+      margin: 0 auto 18px;
+      font-size: clamp(34px, 6vw, 62px);
+      line-height: 1.08;
+    }
+    .hero p {
+      max-width: 760px;
+      margin: 0 auto;
+      color: rgba(255,255,255,.72);
+      font-size: 18px;
+    }
+    .disc {
+      width: 132px;
+      height: 132px;
+      margin: 34px auto 0;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, #050710 0 12%, transparent 13%),
+        repeating-radial-gradient(circle at center, rgba(255,255,255,.1) 0 2px, transparent 2px 10px),
+        conic-gradient(from 40deg, #7c3aed, #111827, #22d3ee, #7c3aed);
+      box-shadow: 0 0 70px rgba(34,211,238,.36);
+      animation: spin 16s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .article {
+      max-width: 860px;
+      margin: -72px auto 64px;
+      padding: 42px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 18px;
+      background: rgba(15,23,42,.92);
+      box-shadow: 0 24px 90px rgba(0,0,0,.42);
+      backdrop-filter: blur(24px);
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+    .pill {
+      display: inline-flex;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(124,58,237,.18);
+      color: #c4b5fd;
+      font-weight: 700;
+    }
+    h2 {
+      margin: 40px 0 16px;
+      color: #f8fafc;
+      font-size: 26px;
+      line-height: 1.25;
+    }
+    h3 {
+      margin: 26px 0 10px;
+      color: #bae6fd;
+      font-size: 20px;
+    }
+    p { margin: 14px 0; color: #cbd5e1; }
+    ul { margin: 12px 0 12px 22px; color: #cbd5e1; }
+    li { margin: 8px 0; }
+    blockquote {
+      margin: 28px 0;
+      padding: 18px 22px;
+      border-left: 4px solid #22d3ee;
+      border-radius: 10px;
+      background: rgba(8,145,178,.12);
+      color: #cffafe;
+      font-weight: 700;
+    }
+    code {
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: rgba(255,255,255,.08);
+      color: #f0abfc;
+      font-family: Consolas, "JetBrains Mono", monospace;
+      font-size: .92em;
+    }
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 26px;
+    }
+    .stack span {
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      color: #e0f2fe;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0;
+    }
+    .feature {
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.06);
+    }
+    .feature strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .feature span {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+    .project-links a {
+      display: inline-flex;
+      padding: 12px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 800;
+      color: #050710;
+      background: #67e8f9;
+    }
+    .project-links a.secondary {
+      color: #e5e7eb;
+      background: rgba(255,255,255,.1);
+    }
+    footer {
+      text-align: center;
+      padding: 0 24px 42px;
+      color: #64748b;
+      font-size: 14px;
+    }
+    @media (max-width: 720px) {
+      .hero { padding-top: 72px; }
+      .article {
+        margin: -58px 14px 42px;
+        padding: 28px 20px;
+        border-radius: 14px;
+      }
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <span class="eyebrow">PROJECT REVIEW · FRONTEND MUSIC PLAYER</span>
+    <h1>Gali-Player：现代网页音乐播放器项目复盘</h1>
+    <p>一次围绕播放体验、动效细节和暗色毛玻璃 UI 的 React 前端项目练习。</p>
+    <div class="disc" aria-hidden="true"></div>
+  </header>
+
+  <article class="article">
+    <div class="meta">
+      <span>2026 · 05 · 21</span>
+      <span class="pill">React</span>
+      <span class="pill">Music Player</span>
+      <span class="pill">UI 作品集</span>
+    </div>
+
+    <p>
+      <strong>Gali-Player</strong> 是一个现代网页音乐播放器项目。它不是一个简单的 audio 标签演示，而是围绕「音乐产品界面」做了一套较完整的前端体验：
+      暗色毛玻璃布局、唱片旋转、音乐波形、播放队列、账号登录演示态、收藏状态、搜索筛选和响应式播放器。
+    </p>
+
+    <blockquote>
+      这个项目的重点，是把普通的音乐播放功能包装成一个足够完整、足够有作品集质感的网页应用。
+    </blockquote>
+
+    <h2>项目定位</h2>
+    <p>
+      Gali-Player 面向的是作品集展示场景。它不追求真实音乐平台的复杂版权和账户体系，而是把重点放在前端 UI 审美、交互细节和基础播放能力上。
+      用户可以浏览推荐曲目、切换发现页/音乐库/歌单页，也可以登录演示账号，保存本地登录态和收藏状态。
+    </p>
+
+    <h2>技术栈</h2>
+    <div class="stack">
+      <span>React</span>
+      <span>Vite</span>
+      <span>Tailwind CSS v4</span>
+      <span>Framer Motion</span>
+      <span>Lucide React</span>
+      <span>HTML Audio API</span>
+      <span>LocalStorage</span>
+      <span>Vercel</span>
+    </div>
+    <p>
+      项目使用 Vite 搭建 React 单页应用，动画层使用 Framer Motion，图标来自 Lucide React。
+      播放控制基于浏览器原生 <code>HTMLAudioElement</code>，包括播放、暂停、上一首、下一首、随机播放、进度跳转和音量控制。
+    </p>
+
+    <h2>核心功能</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <strong>播放控制</strong>
+        <span>支持播放/暂停、上一首、下一首、随机播放、结束自动切歌。</span>
+      </div>
+      <div class="feature">
+        <strong>进度与音量</strong>
+        <span>显示当前时间和总时长，可拖动进度条跳转，也可调整音量。</span>
+      </div>
+      <div class="feature">
+        <strong>音乐库与搜索</strong>
+        <span>按歌曲、歌手、专辑和心情搜索，并支持音乐库排序。</span>
+      </div>
+      <div class="feature">
+        <strong>收藏与歌单</strong>
+        <span>支持收藏/取消收藏歌曲，并在歌单页展示喜欢的音乐。</span>
+      </div>
+      <div class="feature">
+        <strong>登录演示态</strong>
+        <span>提供登录弹窗和演示账号，一键登录后展示头像、昵称和邮箱。</span>
+      </div>
+      <div class="feature">
+        <strong>视觉动效</strong>
+        <span>唱片旋转、波形动画、页面切换和曲目卡片动效让界面更有生命力。</span>
+      </div>
+    </div>
+
+    <h2>实现细节</h2>
+    <h3>1. HTML Audio API 管理播放</h3>
+    <p>
+      项目通过 <code>useRef</code> 持有 audio 实例，再用 React state 同步当前曲目、播放状态、进度、时长和音量。
+      当 <code>isPlaying</code> 或 <code>currentIndex</code> 变化时，组件会自动调用 audio 的 <code>play()</code> 或 <code>pause()</code>。
+    </p>
+    <p>
+      进度条则绑定 <code>currentTime</code>，用户拖动 range input 时直接修改 audio 的播放位置，从而形成即时跳转体验。
+    </p>
+
+    <h3>2. 数据驱动的曲库</h3>
+    <p>
+      曲目数据集中放在 <code>src/data/tracks.js</code>，每首歌包含标题、歌手、专辑、时长、心情、BPM、主题色、强调色和 MP3 地址。
+      UI 的背景光效、唱片色彩和曲目卡片状态都可以根据当前歌曲动态变化。
+    </p>
+
+    <h3>3. Framer Motion 提升切换体验</h3>
+    <p>
+      首页、发现页、音乐库和歌单页通过状态切换渲染，并使用 <code>AnimatePresence</code> 和 <code>motion</code> 做进入/退出动画。
+      这让页面切换不像普通条件渲染那样生硬，更接近真实产品的流畅感。
+    </p>
+
+    <h3>4. 登录状态本地保存</h3>
+    <p>
+      登录功能是前端演示版：用户填写昵称、邮箱和密码，或直接使用演示账号登录。
+      登录后信息会保存到 <code>localStorage</code>，刷新页面也能保持用户状态。正式产品中，这一块可以继续扩展为后端账号、数据库、密码加密和会话管理。
+    </p>
+
+    <h2>视觉设计</h2>
+    <p>
+      Gali-Player 采用暗色背景、毛玻璃面板、动态氛围光和高饱和主题色。播放器底栏固定在底部，左侧显示当前播放歌曲，中间是播放控制和进度条，右侧是音量控制。
+      主舞台则承担推荐、发现、曲库和歌单内容。
+    </p>
+    <p>
+      这套 UI 的重点不是堆功能，而是让每一个播放动作都有反馈：唱片会转、波形会跳、当前歌曲会高亮，卡片 hover 有轻微位移。
+      对作品集来说，这些细节能更好展示前端交互能力。
+    </p>
+
+    <h2>部署与上线</h2>
+    <p>
+      项目已经配置了 <code>vercel.json</code>，使用 Vercel 部署。构建命令是 <code>npm run build</code>，输出目录是 <code>dist</code>，
+      并通过 rewrite 支持单页应用刷新不 404。
+    </p>
+
+    <h2>可以继续优化的方向</h2>
+    <ul>
+      <li>接入真实后端账号体系，同步收藏和播放历史。</li>
+      <li>将示例 MP3 替换为拥有授权的音乐资源。</li>
+      <li>增加播放模式：单曲循环、列表循环、播放队列重排。</li>
+      <li>增加歌词面板、频谱可视化和快捷键控制。</li>
+      <li>将曲库管理抽象成可配置数据源，方便后续扩展。</li>
+    </ul>
+
+    <h2>总结</h2>
+    <p>
+      Gali-Player 是一个很适合放进作品集的前端项目。它覆盖了组件状态、媒体 API、动效、响应式布局、本地持久化和部署配置等多个点。
+      虽然业务规模不大，但它能清楚展示一个前端项目从视觉设计到交互实现的完整过程。
+    </p>
+
+    <div class="project-links">
+      <a href="https://github.com/Galiboom/Gali-Player" target="_blank">查看 GitHub 项目</a>
+      <a class="secondary" href="https://galiboom.github.io/">返回博客首页</a>
+    </div>
+  </article>
+
+  <footer>
+    &copy; 2026 Galiboom. Built with rhythm and code.
+  </footer>
+</body>
+</html>
