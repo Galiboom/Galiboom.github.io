@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>森林法术旅团：从 2D MVP 到 3D 网页生存游戏复盘</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: #08110d;
+      color: #edf7e9;
+      line-height: 1.85;
+    }
+    .hero {
+      min-height: 52vh;
+      padding: 96px 24px 124px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(255, 209, 102, .32), transparent 30%),
+        radial-gradient(circle at 76% 30%, rgba(126, 231, 255, .22), transparent 34%),
+        linear-gradient(135deg, #0a1711 0%, #1f3f27 54%, #102019 100%);
+      overflow: hidden;
+    }
+    .eyebrow {
+      display: inline-flex;
+      margin-bottom: 18px;
+      padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 999px;
+      color: #ffd166;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+    .hero h1 {
+      max-width: 980px;
+      margin: 0 auto 18px;
+      font-size: clamp(34px, 6vw, 64px);
+      line-height: 1.08;
+    }
+    .hero p {
+      max-width: 760px;
+      margin: 0 auto;
+      color: rgba(237,247,233,.78);
+      font-size: 18px;
+    }
+    .scene {
+      width: min(520px, 86vw);
+      height: 150px;
+      margin: 38px auto 0;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 18px;
+      background:
+        linear-gradient(15deg, transparent 0 28%, rgba(150, 118, 62, .7) 29% 37%, transparent 38%),
+        linear-gradient(-8deg, transparent 0 56%, rgba(60, 174, 163, .68) 57% 64%, transparent 65%),
+        radial-gradient(circle at 51% 58%, #ffd166 0 3px, transparent 4px),
+        radial-gradient(circle at 56% 62%, #b9f37d 0 7px, transparent 8px),
+        radial-gradient(circle at 18% 70%, #5ed3c6 0 9px, transparent 10px),
+        radial-gradient(circle at 78% 45%, #8ec8ff 0 10px, transparent 11px),
+        #285a33;
+      box-shadow: 0 28px 90px rgba(0,0,0,.36);
+      position: relative;
+      overflow: hidden;
+    }
+    .scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        conic-gradient(from 45deg at 12% 38%, transparent 0 25%, #255f38 0 50%, transparent 0) 0 0 / 76px 76px,
+        conic-gradient(from 45deg at 82% 70%, transparent 0 25%, #1f5131 0 50%, transparent 0) 0 0 / 94px 94px;
+      opacity: .6;
+    }
+    .article {
+      max-width: 880px;
+      margin: -72px auto 64px;
+      padding: 42px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 18px;
+      background: rgba(13, 25, 18, .94);
+      box-shadow: 0 24px 90px rgba(0,0,0,.42);
+      backdrop-filter: blur(24px);
+      position: relative;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+      color: #9fb5a2;
+      font-size: 14px;
+    }
+    .pill {
+      display: inline-flex;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(255, 209, 102, .16);
+      color: #ffe08a;
+      font-weight: 800;
+    }
+    h2 {
+      margin: 40px 0 16px;
+      color: #fff8d8;
+      font-size: 26px;
+      line-height: 1.25;
+    }
+    h3 {
+      margin: 26px 0 10px;
+      color: #9be7c0;
+      font-size: 20px;
+    }
+    p { margin: 14px 0; color: #cfdecf; }
+    ul { margin: 12px 0 12px 22px; color: #cfdecf; }
+    li { margin: 8px 0; }
+    blockquote {
+      margin: 28px 0;
+      padding: 18px 22px;
+      border-left: 4px solid #ffd166;
+      border-radius: 10px;
+      background: rgba(255, 209, 102, .1);
+      color: #fff3c4;
+      font-weight: 800;
+    }
+    code {
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: rgba(255,255,255,.08);
+      color: #7ee7ff;
+      font-family: Consolas, "JetBrains Mono", monospace;
+      font-size: .92em;
+    }
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 26px;
+    }
+    .stack span {
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      color: #e7f8e0;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0;
+    }
+    .feature {
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.055);
+    }
+    .feature strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #fffbe8;
+    }
+    .feature span {
+      color: #a9b8aa;
+      font-size: 14px;
+    }
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+    .project-links a {
+      display: inline-flex;
+      padding: 12px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 900;
+      color: #172015;
+      background: #ffd166;
+    }
+    .project-links a.secondary {
+      color: #edf7e9;
+      background: rgba(255,255,255,.1);
+    }
+    footer {
+      text-align: center;
+      padding: 0 24px 42px;
+      color: #819083;
+      font-size: 14px;
+    }
+    @media (max-width: 720px) {
+      .hero { padding-top: 72px; }
+      .article {
+        margin: -58px 14px 42px;
+        padding: 28px 20px;
+        border-radius: 14px;
+      }
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <span class="eyebrow">PROJECT REVIEW · 3D WEB GAME</span>
+    <h1>森林法术旅团：从 2D MVP 到 3D 网页生存游戏复盘</h1>
+    <p>一次用 TypeScript、Three.js 和 Vite 构建原创森林法术生存游戏的完整记录。</p>
+    <div class="scene" aria-hidden="true"></div>
+  </header>
+
+  <article class="article">
+    <div class="meta">
+      <span>2026 · 05 · 23</span>
+      <span class="pill">Three.js</span>
+      <span class="pill">Browser Game</span>
+      <span class="pill">TypeScript</span>
+    </div>
+
+    <p>
+      <strong>森林法术旅团</strong> 是一个浏览器优先的原创 3D 生存游戏 MVP。最初的目标很明确：
+      做一个能在网页里直接玩的单机小游戏，核心体验是边走位、边自动施法、边通过升级选择构筑自己的法术路线。
+    </p>
+    <p>
+      这次项目有一个很重要的前提：它可以借鉴“森林山地”“法术构筑”“荒诞鱼群”这些方向，但不直接复刻任何现成 IP 的角色、名字、造型和素材。
+      所以最终落地成了原创森林小队、原创海底怪物生态，以及一张开放式森林山地地图。
+    </p>
+
+    <blockquote>
+      这次最大的收获不是“做了一个游戏”，而是把一个模糊的灵感，压缩成了可运行、可测试、可发布的网页 MVP。
+    </blockquote>
+
+    <h2>项目定位</h2>
+    <p>
+      游戏的核心循环是：选择角色，进入开放森林地图，移动走位，自动法术攻击，击败怪物，拾取经验，三选一升级，再继续面对更高压的波次。
+      它不做联机、不做账号系统、不做复杂剧情，而是先把“移动手感 + 法术反馈 + 生存压力”这三件事跑通。
+    </p>
+
+    <h2>技术栈</h2>
+    <div class="stack">
+      <span>TypeScript</span>
+      <span>Three.js</span>
+      <span>Vite</span>
+      <span>Vitest</span>
+      <span>HTML UI</span>
+      <span>LocalStorage</span>
+      <span>Chrome DevTools Protocol</span>
+    </div>
+    <p>
+      项目一开始使用 Phaser 3 做了 2D MVP。后来因为移动操作和表现力的问题，我把主入口切到了 Three.js，
+      用 <code>WebGLRenderer</code> 渲染 3D 场景，用自维护的输入状态解决连续移动，用 DOM 层承载菜单、HUD、升级和结算 UI。
+    </p>
+
+    <h2>核心功能</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <strong>3D 森林地图</strong>
+        <span>包含山地空地、泥路、河道、木屋、矿洞、树木和岩石障碍。</span>
+      </div>
+      <div class="feature">
+        <strong>连续移动控制</strong>
+        <span>键盘使用 WASD / 方向键，移动端使用拖拽摇杆，按住即可持续移动。</span>
+      </div>
+      <div class="feature">
+        <strong>角色选择</strong>
+        <span>三名原创森林小队角色，分别偏向稳健、防守、发明爆发和灵活走位。</span>
+      </div>
+      <div class="feature">
+        <strong>自动法术战斗</strong>
+        <span>松针法球、溪流连锁、篝火爆鸣、灵木图腾形成不同战斗节奏。</span>
+      </div>
+      <div class="feature">
+        <strong>攻击与命中特效</strong>
+        <span>包含法球发射、命中火花、爆炸圆环、连锁光束、拾取闪光。</span>
+      </div>
+      <div class="feature">
+        <strong>升级与存档</strong>
+        <span>经验升级后触发三选一强化，本地保存最高分、最长生存时间和音效偏好。</span>
+      </div>
+    </div>
+
+    <h2>从 2D 到 3D 的重构</h2>
+    <p>
+      2D 版本能验证核心循环，但操作上出现了“不够连续”的问题。这个问题本质上不是单个按键事件没响应，
+      而是移动状态没有被稳定地作为“持续输入”来管理。
+    </p>
+    <p>
+      3D 版本里，我没有继续依赖旧的物理移动，而是自己维护一个 <code>Set&lt;string&gt;</code> 存储当前按下的键。
+      每一帧根据这个集合计算移动方向，再乘以角色速度和 delta time。这样按住键时，角色会稳定地连续移动；松开时，状态会被移除。
+    </p>
+
+    <h2>战斗系统怎么落地</h2>
+    <p>
+      战斗系统延续了数据驱动的设计：角色、敌人、法术、波次都拆成独立配置。游戏循环只负责读取这些配置，生成实体并更新行为。
+      这样后续要加新角色、新怪物或新法术，不需要把主循环改得乱七八糟。
+    </p>
+    <h3>敌人生态</h3>
+    <p>
+      敌人不是简单地一窝蜂贴脸，而是分成近战追击、远程泡泡骚扰和精英高血量压场。波次会随时间增加数量、刷新速度和敌人类型，
+      让玩家在前几分钟能上手，后面逐渐感到压力。
+    </p>
+    <h3>法术反馈</h3>
+    <p>
+      3D 版本最明显的提升是反馈感。法球飞行时有发光球体，命中时有火花和圆环，连锁攻击会在目标之间拉出光束。
+      这些效果不只是装饰，它们让玩家能快速理解“我打中了什么”“伤害从哪里来”“现在场面是否危险”。
+    </p>
+
+    <h2>UI 与体验</h2>
+    <p>
+      游戏 UI 没有做成复杂菜单，而是只保留高频入口：开始、角色选择、暂停、升级、结算和本地最高分。
+      角色选择放在首页，HUD 保持在左上角，暂停按钮在右上角，移动提示在右下角。
+    </p>
+    <p>
+      这类生存游戏的 UI 不应该抢走注意力。真正要被看见的是地图、怪物、玩家位置和攻击轨迹。
+      所以我把 UI 做得比较克制，尽量让它像游戏状态面板，而不是一个盖在游戏上的网页。
+    </p>
+
+    <h2>验证过程</h2>
+    <p>
+      项目不是写完就算。我跑了三类验证：
+    </p>
+    <ul>
+      <li><code>npm test</code>：验证伤害计算、升级抽取、波次增长和本地存档。</li>
+      <li><code>npm run build</code>：确保 TypeScript 和 Vite 生产构建通过。</li>
+      <li><code>node tests/browser-smoke.mjs</code>：用本机 Chrome 自动打开页面、选择角色、进入游戏、模拟按住移动，并检查控制台异常。</li>
+    </ul>
+    <p>
+      我还用截图确认了菜单和游戏画面不是空画布，HUD 没有明显重叠，3D 场景和攻击反馈都能看到。
+    </p>
+
+    <h2>可以继续优化的方向</h2>
+    <ul>
+      <li>为每个角色做更明显的专属技能，而不只是数值差异。</li>
+      <li>增加更多法术联动，例如水 + 木触发藤蔓扩散，火 + 图腾触发范围燃烧。</li>
+      <li>给敌人加入更清晰的攻击前摇和危险提示。</li>
+      <li>增加小地图、成就和局外成长，但要避免把 MVP 复杂化。</li>
+      <li>未来如果要上线展示，可以加 GitHub Pages / Vercel 自动部署流程。</li>
+    </ul>
+
+    <h2>总结</h2>
+    <p>
+      这次项目从想法到 2D MVP，再到 3D 重构，最有价值的是不断把问题具体化：
+      “操作有问题”最后变成了输入状态管理，“想要更有表现力”最后变成了 Three.js 场景和攻击特效，
+      “想要可发布”最后变成了测试、构建、浏览器烟测和 GitHub 仓库。
+    </p>
+    <p>
+      森林法术旅团现在还只是 MVP，但它已经具备一个小游戏最重要的基础：能玩、能看懂、能扩展，也能被继续打磨。
+    </p>
+
+    <div class="project-links">
+      <a href="https://github.com/Galiboom/GaLi-Player-zhouyu" target="_blank">查看 GitHub 项目</a>
+      <a class="secondary" href="https://galiboom.github.io/">返回博客首页</a>
+    </div>
+  </article>
+
+  <footer>
+    &copy; 2026 Galiboom. Built with forest, spells and code.
+  </footer>
+</body>
+</html>
