@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GaLi CareerPilot：把找实习变成可追踪的 AI Agent 工作流</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: #f7f8fb;
+      color: #172033;
+      line-height: 1.85;
+    }
+    .hero {
+      min-height: 48vh;
+      padding: 96px 24px 118px;
+      color: white;
+      background:
+        radial-gradient(circle at 18% 24%, rgba(20,184,166,.32), transparent 34%),
+        radial-gradient(circle at 82% 18%, rgba(59,130,246,.28), transparent 30%),
+        linear-gradient(135deg, #08111f 0%, #0f3b45 48%, #1e1b4b 100%);
+      text-align: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      margin-bottom: 18px;
+      padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 999px;
+      color: #99f6e4;
+      font-size: 13px;
+      letter-spacing: .08em;
+    }
+    .hero h1 {
+      max-width: 960px;
+      margin: 0 auto 18px;
+      font-size: clamp(32px, 6vw, 58px);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+    .hero p {
+      max-width: 760px;
+      margin: 0 auto;
+      color: rgba(255,255,255,.78);
+      font-size: 18px;
+    }
+    .article {
+      max-width: 880px;
+      margin: -72px auto 64px;
+      padding: 42px;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 24px 80px rgba(15,23,42,.14);
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+      color: #64748b;
+      font-size: 14px;
+    }
+    .pill {
+      display: inline-flex;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #ecfeff;
+      color: #155e75;
+      font-weight: 700;
+    }
+    h2 {
+      margin: 40px 0 16px;
+      padding-top: 8px;
+      color: #0f172a;
+      font-size: 26px;
+      line-height: 1.25;
+    }
+    h3 {
+      margin: 26px 0 10px;
+      color: #1e293b;
+      font-size: 20px;
+    }
+    p { margin: 14px 0; }
+    ul { margin: 12px 0 12px 22px; }
+    li { margin: 8px 0; }
+    blockquote {
+      margin: 28px 0;
+      padding: 18px 22px;
+      border-left: 4px solid #14b8a6;
+      border-radius: 10px;
+      background: #f0fdfa;
+      color: #115e59;
+      font-weight: 700;
+    }
+    code {
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: #f1f5f9;
+      color: #be123c;
+      font-family: Consolas, "JetBrains Mono", monospace;
+      font-size: .92em;
+    }
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 26px;
+    }
+    .stack span {
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 20px 0 26px;
+    }
+    .flow div {
+      min-height: 112px;
+      padding: 16px;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      background: #f8fbff;
+    }
+    .flow strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #0f766e;
+    }
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+    .project-links a {
+      display: inline-flex;
+      padding: 12px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      color: white;
+      background: #0f172a;
+    }
+    .project-links a.secondary {
+      color: #0f172a;
+      background: #e2e8f0;
+    }
+    footer {
+      text-align: center;
+      padding: 0 24px 42px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+    @media (max-width: 760px) {
+      .hero { padding-top: 72px; }
+      .article {
+        margin: -58px 14px 42px;
+        padding: 28px 20px;
+        border-radius: 14px;
+      }
+      .flow { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <span class="eyebrow">PROJECT REVIEW · AI AGENT</span>
+    <h1>GaLi CareerPilot：把找实习变成可追踪的 AI Agent 工作流</h1>
+    <p>一次围绕真实求职场景做的全栈 AI Agent 项目复盘：岗位发现、JD 解析、简历匹配、改写建议、投递话术和管理后台。</p>
+  </header>
+
+  <article class="article">
+    <div class="meta">
+      <span>2026 · 05 · 28</span>
+      <span class="pill">AI Agent</span>
+      <span class="pill">全栈项目</span>
+      <span class="pill">求职工具</span>
+    </div>
+
+    <p>
+      最近我做了一个新的作品集项目：<strong>GaLi CareerPilot AI 求职投递 Agent</strong>。
+      它不是一个替用户自动登录招聘平台、自动点击投递的工具，而是一个更适合展示和真实使用的求职工作台：
+      用户导入自己的 Markdown 简历，粘贴或导入岗位 JD，然后让 Agent 逐步完成岗位理解、匹配评分、能力缺口分析、简历改写和投递话术生成。
+    </p>
+
+    <blockquote>
+      我想做的不是“又一个聊天框”，而是一条能被观察、能被校验、能被复盘的 Agent 工作流。
+    </blockquote>
+
+    <h2>为什么做这个项目</h2>
+    <p>
+      找 AI Agent 实习时，我发现真正耗时间的地方往往不是“有没有岗位”，而是每个岗位都要重复做同一套判断：
+      JD 到底在要什么能力？我的简历和它匹配在哪里？缺口在哪里？简历应该如何针对性强调？给 HR 的第一句话怎么写才不空泛？
+    </p>
+    <p>
+      这些事情很适合拆成一个多步骤 Agent：每一步都有输入、输出和校验，不需要让大模型一次性生成一大段不可控结果。
+      CareerPilot 就是围绕这个思路搭出来的。
+    </p>
+
+    <h2>技术栈</h2>
+    <div class="stack">
+      <span>Next.js</span>
+      <span>React</span>
+      <span>TypeScript</span>
+      <span>Tailwind CSS</span>
+      <span>FastAPI</span>
+      <span>SQLModel</span>
+      <span>SQLite</span>
+      <span>Pydantic</span>
+      <span>SSE</span>
+      <span>DeepSeek API</span>
+    </div>
+    <p>
+      前端使用 Next.js + TypeScript 构建工作台、投递看板和运营后台；后端使用 FastAPI + SQLModel + SQLite 管理用户、简历、岗位、匹配报告、
+      投递记录、Prompt、模型配置和 Agent 日志。模型调用按 OpenAI Compatible 方式封装，默认支持 DeepSeek API，也保留了本地演示 fallback。
+    </p>
+
+    <h2>Agent 如何拆步骤</h2>
+    <p>
+      我把一次分析拆成 6 个工具，每个工具只做一件事，并且每一步都输出结构化 JSON：
+    </p>
+    <div class="flow">
+      <div><strong>ResumeParserTool</strong>解析 Markdown 简历，抽取技能、项目、教育背景和亮点。</div>
+      <div><strong>JDParserTool</strong>解析岗位 JD，识别硬性要求、加分项、城市和方向。</div>
+      <div><strong>MatchScorerTool</strong>输出技能、项目、学历、城市、加分项 5 类匹配分。</div>
+      <div><strong>GapAnalyzerTool</strong>生成可执行补强建议，而不是泛泛而谈。</div>
+      <div><strong>ResumeRewriteTool</strong>在不虚构经历的前提下改写项目表达。</div>
+      <div><strong>OutreachWriterTool</strong>生成牛客/实习僧短消息、邮件正文和 HR 跟进话术。</div>
+    </div>
+    <p>
+      这种拆法的好处是：用户能看到 Agent 进行到哪一步；系统可以对每一步做 Pydantic 校验；
+      如果模型输出不符合预期，也能给出错误提示和重试入口，而不是让前端整页卡住。
+    </p>
+
+    <h2>SSE 让过程被看见</h2>
+    <p>
+      对求职工具来说，等待大模型完整返回会让人很焦虑。所以我使用 <code>text/event-stream</code> 做阶段推送：
+      后端每完成一个工具，就把阶段名、结构化结果和状态发送给前端，前端立即更新进度和 JSON 面板。
+    </p>
+    <p>
+      这样用户看到的不是一个黑盒 AI，而是一条逐步推进的任务链：先解析简历，再理解岗位，再给出评分和理由，最后生成改写结果和投递话术。
+    </p>
+
+    <h2>为什么要做管理后台</h2>
+    <p>
+      作品集项目如果只有用户端，通常很难体现系统完整性。CareerPilot 里我加入了运营后台，用来查看用户列表、岗位质量、重复岗位、
+      Prompt 模板、模型配置、Agent 调用日志和数据统计。
+    </p>
+    <p>
+      这部分让我能展示更完整的工程思路：不只是“用户点一下生成结果”，还包括调用次数、成功失败、耗时、错误信息和权限边界。
+      普通用户不能访问后台页面和后台接口，API key 也只从后端环境变量读取。
+    </p>
+
+    <h2>我刻意没有做什么</h2>
+    <p>
+      我没有让它自动登录招聘平台，也没有让它自动点击投递。原因很简单：求职投递涉及账号安全、平台规则和个人意愿，
+      更适合做成“人负责最终确认，Agent 负责分析和准备材料”的模式。
+    </p>
+    <p>
+      简历改写也遵守一个底线：不虚构不存在的项目、技术栈、奖项或经历。Agent 可以优化表达，但不能替用户编造履历。
+    </p>
+
+    <h2>这个项目适合写进简历的点</h2>
+    <ul>
+      <li>用多工具 Agent 工作流拆解真实求职任务，而不是只做单轮聊天。</li>
+      <li>使用 Pydantic 校验模型结构化输出，提升 AI 结果稳定性。</li>
+      <li>使用 SSE 展示阶段进度，让前端不需要整页等待。</li>
+      <li>设计匹配分解释机制，将评分拆成技能、项目、学历、城市和加分项。</li>
+      <li>实现用户端、投递看板、管理后台和 SQLite 落库，项目闭环完整。</li>
+    </ul>
+
+    <h2>总结</h2>
+    <p>
+      GaLi CareerPilot 是我目前最贴近 AI Agent 实习方向的项目。它把一个真实、重复、可拆解的任务变成了可观察的系统：
+      前端负责工作台体验，后端负责数据和权限，Agent 负责多步骤推理和内容生成，后台负责运营与复盘。
+    </p>
+    <p>
+      接下来我会继续把它往更真实的求职场景推进，比如加入更多岗位源、历史版本对比、匹配策略配置，以及更细粒度的简历版本管理。
+    </p>
+
+    <div class="project-links">
+      <a href="https://github.com/Galiboom/GaLi-CareerPilot-AI-Agent" target="_blank">查看 GitHub 项目</a>
+      <a class="secondary" href="https://galiboom.github.io/">返回博客首页</a>
+    </div>
+  </article>
+
+  <footer>
+    &copy; 2026 Galiboom. Built with curiosity and code.
+  </footer>
+</body>
+</html>
