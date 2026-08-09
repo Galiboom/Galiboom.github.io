@@ -148,16 +148,30 @@
         border-radius: 14px;
       }
     }
-  </style>
+</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
 </head>
-<body>
+<body class="article-page article-ai">
+  <a class="skip-link" href="#article">跳到正文</a>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html"><span class="brand__mark" aria-hidden="true">G</span><span>GALIBOOM</span></a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="打开导航"><i data-lucide="menu" aria-hidden="true"></i></button>
+      <nav class="site-nav" id="site-nav" aria-label="主导航">
+        <a href="index.html#work">作品</a><a href="index.html#notes">笔记</a><a href="index.html#about">关于</a><a href="https://github.com/Galiboom" target="_blank" rel="noreferrer">GitHub <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+      </nav>
+    </div>
+  </header>
   <header class="hero">
     <span class="eyebrow">PROJECT REVIEW · FULL STACK AI</span>
     <h1>AI-CardCrafter：一次从 0 到上线的全栈 AI 项目复盘</h1>
     <p>用 React、FastAPI、DeepSeek 和 Vercel 做一个可以真实演示的智能营销卡片生成器。</p>
   </header>
 
-  <article class="article">
+  <article class="article" id="article">
     <div class="meta">
       <span>2026 · 05 · 21</span>
       <span class="pill">AI 应用</span>
@@ -291,5 +305,7 @@
   <footer>
     &copy; 2026 Galiboom. Built with curiosity and code.
   </footer>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="site.js"></script>
 </body>
 </html>

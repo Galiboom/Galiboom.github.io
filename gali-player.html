@@ -184,9 +184,23 @@
       }
       .feature-grid { grid-template-columns: 1fr; }
     }
-  </style>
+</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
 </head>
-<body>
+<body class="article-page article-player">
+  <a class="skip-link" href="#article">跳到正文</a>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html"><span class="brand__mark" aria-hidden="true">G</span><span>GALIBOOM</span></a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="打开导航"><i data-lucide="menu" aria-hidden="true"></i></button>
+      <nav class="site-nav" id="site-nav" aria-label="主导航">
+        <a href="index.html#work">作品</a><a href="index.html#notes">笔记</a><a href="index.html#about">关于</a><a href="https://github.com/Galiboom" target="_blank" rel="noreferrer">GitHub <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+      </nav>
+    </div>
+  </header>
   <header class="hero">
     <span class="eyebrow">PROJECT REVIEW · FRONTEND MUSIC PLAYER</span>
     <h1>Gali-Player：现代网页音乐播放器项目复盘</h1>
@@ -194,7 +208,7 @@
     <div class="disc" aria-hidden="true"></div>
   </header>
 
-  <article class="article">
+  <article class="article" id="article">
     <div class="meta">
       <span>2026 · 05 · 21</span>
       <span class="pill">React</span>
@@ -329,5 +343,7 @@
   <footer>
     &copy; 2026 Galiboom. Built with rhythm and code.
   </footer>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="site.js"></script>
 </body>
 </html>
