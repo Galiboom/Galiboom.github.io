@@ -30,6 +30,15 @@
     .features { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; margin-top:24px; background:var(--line); }
     .feature { background:var(--surface); padding:24px; }
     .feature strong { display:block; color:var(--text); margin-bottom:8px; font-size:.9rem; }
+    .feature p, .feature li { font-size:.78rem; }
+    .metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:24px; background:var(--line); }
+    .metric { background:var(--surface); padding:22px; }
+    .metric strong { display:block; color:var(--accent); font:700 1.5rem Syne,sans-serif; }
+    .metric span { color:var(--muted); font-size:.72rem; }
+    .architecture { margin-top:24px; padding:22px; background:var(--surface); border-left:2px solid var(--accent); color:var(--text); font-size:.78rem; line-height:2.1; }
+    .architecture b { color:var(--accent); font-weight:500; }
+    ul { margin:18px 0 0 18px; color:var(--muted); }
+    li { margin:8px 0; }
     .stack { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
     .stack span { color:var(--text); background:var(--surface); border:1px solid var(--line); padding:9px 13px; font-size:.75rem; }
     .back { display:inline-flex; margin-top:28px; color:var(--accent); text-decoration:none; font-size:.8rem; }
@@ -42,29 +51,59 @@
   <main class="wrap">
     <div class="eyebrow">Project · 2026.09.13</div>
     <h1>某教育<em>平台项目</em></h1>
-    <p class="lead">一个面向国际教育企业的全栈网站平台，覆盖前台品牌展示、课程与案例内容、咨询线索收集，以及可维护的后台管理能力。</p>
+    <p class="lead">一个面向教育服务企业的全栈网站平台。重点不是“把页面做出来”，而是把品牌展示、内容运营、咨询线索和后台维护，收敛成一套可以持续交付的业务系统。</p>
     <div class="meta"><span>Next.js 15</span><span>React 18</span><span>TypeScript</span><span>MySQL + Drizzle</span></div>
 
     <section>
-      <h2>项目做了什么</h2>
-      <p>把教育服务从静态宣传页升级成可持续运营的内容平台。访客可以浏览课程、留学服务、学员案例和新闻资讯，运营人员则可以在后台维护首页区块、文章、课程、案例、轮播图与咨询信息。</p>
-      <div class="features">
-        <div class="feature"><strong>品牌与服务展示</strong><p>首页数据统计、服务项目、优势、录取数据与成功案例组成完整转化路径。</p></div>
-        <div class="feature"><strong>内容管理后台</strong><p>支持课程、文章、案例、视频、城市办公室和首页配置的增删改查。</p></div>
-        <div class="feature"><strong>咨询线索闭环</strong><p>前台表单收集咨询需求，后台集中查看和跟进，减少信息遗漏。</p></div>
-        <div class="feature"><strong>中英文体验</strong><p>公共导航、首页文案与 SEO 信息支持中英文切换，适配国际化受众。</p></div>
+      <h2>项目背景与目标</h2>
+      <p>原有内容依赖人工修改页面，更新成本高、展示内容难以复用，咨询信息也容易散落在不同渠道。我的目标是把它升级为“前台可转化、后台可运营、数据可维护”的完整平台，让非技术人员也能独立完成日常内容更新。</p>
+      <div class="metrics">
+        <div class="metric"><strong>10+</strong><span>可运营内容模块</span></div>
+        <div class="metric"><strong>2</strong><span>套中英文展示体验</span></div>
+        <div class="metric"><strong>1</strong><span>条咨询线索闭环</span></div>
       </div>
     </section>
 
     <section>
-      <h2>技术记录</h2>
-      <p>项目采用 Next.js App Router 构建，使用 Drizzle ORM 连接 MySQL，NextAuth 负责后台登录，Tailwind CSS 负责响应式界面。部署侧按 Node.js、PM2 与 Nginx 的生产环境组织。</p>
+      <h2>核心功能</h2>
+      <p>围绕访客决策路径组织信息，同时为运营人员提供结构化管理能力。</p>
+      <div class="features">
+        <div class="feature"><strong>01 / 转化型首页</strong><p>用数据统计、服务项目、优势、录取数据、案例和资讯建立从认知到咨询的内容节奏。</p></div>
+        <div class="feature"><strong>02 / 内容运营后台</strong><p>课程、文章、案例、视频、轮播图、办公室与首页配置统一管理，支持排序、发布和推荐。</p></div>
+        <div class="feature"><strong>03 / 咨询线索闭环</strong><p>前台表单收集姓名、联系方式和咨询方向，后台集中查看，避免线索在聊天工具中丢失。</p></div>
+        <div class="feature"><strong>04 / 国际化与 SEO</strong><p>公共导航、核心文案和页面元信息支持中英文切换，并补齐 sitemap、robots 和语义化页面结构。</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>系统架构</h2>
+      <p>采用前后端一体的 Next.js App Router 架构，页面、API、认证和数据访问在同一项目内协作，减少跨服务联调成本。</p>
+      <div class="architecture">
+        <b>访客端</b> → 页面路由 / 中英文切换 / 内容浏览 / 咨询表单<br>
+        <b>业务 API</b> → 参数校验 / 分页查询 / CRUD / 文件上传 / 健康检查<br>
+        <b>数据层</b> → Drizzle ORM → MySQL 8.0<br>
+        <b>管理端</b> → NextAuth Credentials → 权限保护 → 内容编辑工作流
+      </div>
       <div class="stack"><span>App Router</span><span>NextAuth</span><span>Drizzle ORM</span><span>Tailwind CSS</span><span>REST API</span><span>Responsive UI</span></div>
     </section>
 
     <section>
-      <h2>项目复盘</h2>
-      <p>这次实现的重点不是堆叠页面，而是把“展示、内容、线索、运营”串成一条可交付的业务链路。前台页面保持清晰的阅读节奏，后台则优先保证日常编辑效率和数据结构的一致性。</p>
+      <h2>关键难点与解决方案</h2>
+      <ul>
+        <li><strong>内容既要灵活又要稳定：</strong>将首页区块和业务资源拆成独立数据表，用排序、启用状态和推荐字段控制展示，避免每次改文案都改代码。</li>
+        <li><strong>前后台不能各自失控：</strong>复用 API 参数解析、分页和资源编辑组件，统一新增、编辑、删除和异常反馈行为，降低维护成本。</li>
+        <li><strong>上传与生产环境要可落地：</strong>补齐上传接口、类型校验和静态访问路由，并按 Node.js、PM2、Nginx 的部署方式组织项目。</li>
+        <li><strong>页面不只追求“能看”：</strong>针对桌面端和移动端调整导航、卡片密度、表单布局和内容层级，让高频浏览和后台编辑都更顺手。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>我的贡献与交付结果</h2>
+      <p>负责从需求拆解、数据结构设计、页面实现、后台 CRUD、认证保护到部署文档整理的完整链路。最终交付的是一套可演示、可维护、可继续扩展的业务平台，而不是一次性静态页面。</p>
+      <div class="features">
+        <div class="feature"><strong>工程化意识</strong><p>把重复逻辑沉淀为共享 Hook、API 工具和编辑组件，保持前后台行为一致。</p></div>
+        <div class="feature"><strong>业务理解</strong><p>围绕用户决策和运营工作流安排信息架构，知道每个字段最终服务于什么动作。</p></div>
+      </div>
       <a class="back" href="index.html">← 返回博客首页</a>
     </section>
   </main>
