@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI-CardCrafter：一次从 0 到上线的全栈 AI 项目复盘</title>
+  <title>AI-CardCrafter：从 Demo 到可用工具的全栈 AI 项目复盘</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -134,6 +134,22 @@
       color: #0f172a;
       background: #e2e8f0;
     }
+    .project-shot {
+      margin: 32px 0;
+    }
+    .project-shot img {
+      display: block;
+      width: 100%;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 18px 50px rgba(15,23,42,.12);
+    }
+    .project-shot figcaption {
+      margin-top: 10px;
+      color: #64748b;
+      font-size: 13px;
+      text-align: center;
+    }
     footer {
       text-align: center;
       padding: 0 24px 42px;
@@ -166,17 +182,18 @@
     </div>
   </header>
   <header class="hero">
-    <span class="eyebrow">PROJECT REVIEW · FULL STACK AI</span>
-    <h1>AI-CardCrafter：一次从 0 到上线的全栈 AI 项目复盘</h1>
-    <p>用 React、FastAPI、DeepSeek 和 Vercel 做一个可以真实演示的智能营销卡片生成器。</p>
+    <span class="eyebrow">PROJECT REVIEW · FULL STACK AI · 2026.09</span>
+    <h1>AI-CardCrafter：从 Demo 到可用工具的全栈 AI 项目复盘</h1>
+    <p>用 React、FastAPI、SSE 和 OpenAI 兼容接口，把一句卖点变成可编辑、可导出的营销卡片。</p>
   </header>
 
   <article class="article" id="article">
     <div class="meta">
-      <span>2026 · 05 · 21</span>
+      <span>2026 · 09 · 15</span>
       <span class="pill">AI 应用</span>
       <span class="pill">全栈项目</span>
       <span class="pill">作品集</span>
+      <span class="pill">持续迭代</span>
     </div>
 
     <p>
@@ -208,13 +225,19 @@
       <span>FastAPI</span>
       <span>SQLite</span>
       <span>SSE</span>
-      <span>DeepSeek API</span>
+      <span>OpenAI Compatible API</span>
       <span>Vercel</span>
     </div>
     <p>
       前端使用 React + TypeScript + Vite 构建，视觉层采用 Tailwind CSS。状态管理使用 Zustand，把卡片数据、模板 ID、生成状态和导出状态拆开管理。
-      后端使用 FastAPI，负责封装 OpenAI 兼容格式的 DeepSeek 调用，并通过 SSE 把生成内容逐步推给前端。
+      后端使用 FastAPI，统一封装 OpenAI 兼容接口，支持 OpenAI、DeepSeek、智谱、Kimi、通义千问、OpenRouter 以及自定义中转，
+      并通过 SSE 把生成内容逐步推给前端。
     </p>
+
+    <figure class="project-shot">
+      <img src="assets/ai-card-crafter-studio.png" alt="AI-CardCrafter 卡片工坊实时预览界面">
+      <figcaption>卡片工坊：左侧控制内容与视觉参数，右侧实时预览并支持高清导出。</figcaption>
+    </figure>
 
     <h2>核心数据契约</h2>
     <p>
@@ -246,15 +269,27 @@
     </p>
 
     <h2>前端体验设计</h2>
-    <p>首版提供三套模板：</p>
+    <p>经过几轮迭代，当前提供八套平台风格模板：</p>
     <ul>
       <li><strong>小红书爆款风</strong>：强调情绪、种草感、贴纸式视觉。</li>
       <li><strong>科技极客风</strong>：强调网格、深色、高可信表达。</li>
       <li><strong>电商促销风</strong>：强调利益点、转化感和商品主图氛围。</li>
+      <li><strong>短视频、弹幕、公众号、问答、热搜风</strong>：分别适配短视频封面、中长视频、深度图文、知识内容和热点传播。</li>
     </ul>
     <p>
       左侧是控制面板，用户可以修改标题、副标题、正文、标签、Emoji 和渐变色；中间是固定比例实时画布。
       任何一次表单修改都会即时反馈到卡片上，避免「先编辑、再预览」的割裂感。
+    </p>
+
+    <h2>从单页 Demo 到完整应用</h2>
+    <p>
+      项目后来从一个单屏工作台扩展成四页应用：<strong>首页、卡片工坊、历史记录、后台管理</strong>。
+      生成记录会写入 SQLite，历史页支持筛选、载入和删除；后台可以查看生成统计、切换运行模式、保存模型配置，
+      甚至从上游读取可用模型列表。
+    </p>
+    <p>
+      运行模式分为自动、真实接口和内置 Mock。这样既能在没有 API Key 时完整演示，也能在接入真实模型后明确控制是否允许降级，
+      避免「到底调用了哪个模型」变成黑盒。
     </p>
 
     <h2>导出与草稿</h2>
@@ -272,11 +307,21 @@
     <h2>部署过程</h2>
     <p>
       项目代码托管在 GitHub，并通过 Vercel 部署。前端作为 Vite 静态站点构建，后端通过 Vercel Python Function 暴露 FastAPI 入口。
-      线上环境变量中配置 DeepSeek 的 API Key、Base URL 和模型名。
+      线上可以通过环境变量提供默认配置，也可以在后台管理页切换 OpenAI 兼容服务商、模型和运行模式。
     </p>
     <p>
       部署过程中也踩了几个坑，比如 Vercel 对根目录 <code>requirements.txt</code> 的解析、无状态文件系统下 SQLite 路径、以及环境变量修改后必须重新 Redeploy。
       这些问题最后都被整理进了部署配置里。
+    </p>
+
+    <h2>测试与重构</h2>
+    <p>
+      这次迭代没有只停在「功能能跑」：后端补齐了 33 个 pytest 用例，覆盖 Mock 生成、SSE 格式、历史记录、后台模型配置和运行模式；
+      前端通过 TypeScript 构建、ESLint、真实浏览器页面冒烟、Web 质量检查和八套模板截图检查。
+    </p>
+    <p>
+      重构时还修复了几个容易被忽略的问题：相对 SQLite 路径依赖启动目录、测试读取本机持久化配置造成污染、流式请求超时后状态不明确，
+      以及用户主动停止和服务端异常中断没有区分。
     </p>
 
     <h2>我从这个项目里学到了什么</h2>
@@ -293,7 +338,7 @@
       对我来说，它更像是一次把「产品想法、工程实现、部署发布、作品展示」串起来的练习。
     </p>
     <p>
-      接下来如果继续迭代，我会考虑加入更多模板、历史作品管理、图片素材上传，以及更细粒度的设计参数控制。
+      接下来如果继续迭代，我会考虑加入图片素材上传、更多设计参数控制，以及后台接口鉴权和持久化数据库。
     </p>
 
     <div class="project-links">
